@@ -1,9 +1,9 @@
-package com.objects.crazeycollage
+package com.objects.crazeycollage.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.objects.crazeycollage.R
 import com.objects.crazeycollage.views.CollageView
-import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 

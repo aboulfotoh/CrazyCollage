@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.objects.crazeycollage.R;
+import com.objects.crazeycollage.utils.ImageLoaderUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +123,7 @@ public class CollageView extends RelativeLayout {
 	 */
 	public void addItem(String url) {
 		final ItemView card = new ItemView(mContext);
-		ImageLoader.getInstance().displayImage(url, card.getImageView(), new ImageLoadingListener() {
+		ImageLoader.getInstance().displayImage(url, card.getImageView(), ImageLoaderUtility.getDisplayImageOptions(), new ImageLoadingListener() {
 			@Override
 			public void onLoadingStarted(String imageUri, View view) {
 
