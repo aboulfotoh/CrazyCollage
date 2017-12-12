@@ -122,7 +122,28 @@ public class CollageView extends RelativeLayout {
 	 */
 	public void addItem(String url) {
 		final ItemView card = new ItemView(mContext);
-		ImageLoader.getInstance().displayImage(url, card.getImageView());
+		ImageLoader.getInstance().displayImage(url, card.getImageView(), new ImageLoadingListener() {
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+
+			}
+
+			@Override
+			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+			}
+
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				card.getTextView().setVisibility(VISIBLE);
+
+			}
+
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+
+			}
+		});
 		addViewToList(card);
 	}
 

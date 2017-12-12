@@ -7,23 +7,26 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
+    private val urls = arrayOf(
+        "https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
+        "https://lh4.googleusercontent.com/--dq8niRp7W4/URquVgmXvgI/AAAAAAAAAbs/-gnuLQfNnBA/s1024/A%252520Song%252520of%252520Ice%252520and%252520Fire.jpg",
+        "https://lh5.googleusercontent.com/-7qZeDtRKFKc/URquWZT1gOI/AAAAAAAAAbs/hqWgteyNXsg/s1024/Another%252520Rockaway%252520Sunset.jpg",
+        "https://lh3.googleusercontent.com/--L0Km39l5J8/URquXHGcdNI/AAAAAAAAAbs/3ZrSJNrSomQ/s1024/Antelope%252520Butte.jpg",
+        "https://lh6.googleusercontent.com/-8HO-4vIFnlw/URquZnsFgtI/AAAAAAAAAbs/WT8jViTF7vw/s1024/Antelope%252520Hallway.jpg",
+        "https://lh4.googleusercontent.com/-WIuWgVcU3Qw/URqubRVcj4I/AAAAAAAAAbs/YvbwgGjwdIQ/s1024/Antelope%252520Walls.jpg",
+        "https://lh6.googleusercontent.com/-UBmLbPELvoQ/URqucCdv0kI/AAAAAAAAAbs/IdNhr2VQoQs/s1024/Apre%2525CC%252580s%252520la%252520Pluie.jpg",
+        "https://lh3.googleusercontent.com/-s-AFpvgSeew/URquc6dF-JI/AAAAAAAAAbs/Mt3xNGRUd68/s1024/Backlit%252520Cloud.jpg",
+        "https://lh5.googleusercontent.com/-bvmif9a9YOQ/URquea3heHI/AAAAAAAAAbs/rcr6wyeQtAo/s1024/Bee%252520and%252520Flower.jpg"
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val collage = findViewById<CollageView>(R.id.collage)
 
-        val listRes = ArrayList<Int>()
-        listRes.add(R.drawable.img1)
-        listRes.add(R.drawable.img2)
-        listRes.add(R.drawable.img3)
-        listRes.add(R.drawable.img4)
+        val listString = urls.indices.map { urls[it] }
 
-        val listString = ArrayList<String>()
-
-        listString.add("http://www.bandwidthblog.com/wp-content/uploads/2011/11/twitter-logo.png")
-        listString.add("http://simpozia.com/pages/images/stories/windows-icon.png")
-        listString.add("http://radiotray.sourceforge.net/radio.png")
         collage.setFixedCollage(false)
         collage.createCollageUrl(listString)
 
