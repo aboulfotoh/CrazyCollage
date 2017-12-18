@@ -97,7 +97,14 @@ public class CollageView extends RelativeLayout {
 	 */
 	private void refreshViews() {
 		if (!listItems.isEmpty() && !isViewRefresh) {
-		    for (int i=0;i<listItems.size();i++){
+			WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+			Display display = wm.getDefaultDisplay();
+			Point size = new Point();
+			display.getSize(size);
+			int width = size.x;
+			int height = size.y;
+
+			for (int i=0;i<listItems.size();i++){
 				LayoutParams params = new LayoutParams(
 						800, 700);
 				int left = random.nextInt(collageWidth) - collageWidth /8;
@@ -108,6 +115,11 @@ public class CollageView extends RelativeLayout {
 
 				if (top<0)
 					top=0;
+
+				if (left > width)
+					left = width/2;
+				if (top > height)
+					top = height/2;
 
 				params.leftMargin = left;
 				params.topMargin = top;
