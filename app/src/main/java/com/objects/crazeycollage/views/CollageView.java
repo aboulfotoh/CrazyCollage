@@ -4,9 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,8 +32,17 @@ import java.util.Random;
 public class CollageView extends RelativeLayout {
 
 	private Context mContext;
-
-	private final String BG = "#FFD4B081";
+    private String[] imageDescriptions = {
+            "Professional Photographer",
+            "Frozen Nature",
+            "Sunset Beach",
+            "127 Hours",
+            "127 Hours Part 2",
+            "127 Hours Part 3",
+            "This is another picture",
+            "Clouds & Sun",
+            "Bees & Flowers"
+    };
 
 	private int collageWidth;
 	private int collageHeight;
@@ -87,20 +99,25 @@ public class CollageView extends RelativeLayout {
 	 */
 	private void refreshViews() {
 		if (!listItems.isEmpty() && !isViewRefresh) {
-			for (ItemView cardView : listItems) {
+		    for (int i=0;i<listItems.size();i++){
 				LayoutParams params = new LayoutParams(
 						800, 700);
-				int left = random.nextInt(collageWidth) - collageWidth / 4;
-				int top = random.nextInt(collageHeight) - collageHeight / 4;
+				int left = random.nextInt(collageWidth) - collageWidth /8;
+				int top = random.nextInt(collageHeight) - collageHeight /8;
+
+
 				params.leftMargin = left;
 				params.topMargin = top;
 				params.rightMargin = -left;
 				params.bottomMargin = -top;
 
-				if (isCollageFixed)
-					cardView.setFixedItem();
 
-				this.addView(cardView,params);
+				if (isCollageFixed)
+					listItems.get(i).setFixedItem();
+
+
+
+				this.addView(listItems.get(i),params);
 
 			}
 			isViewRefresh = true;
@@ -119,10 +136,13 @@ public class CollageView extends RelativeLayout {
 	/**
 	 * Add Item
 	 *
-	 * @param url
-	 */
-	public void addItem(String url) {
+     * @param url
+     * @param imageDescription
+     */
+	public void addItem(String url, String imageDescription) {
 		final ItemView card = new ItemView(mContext);
+        card.getTextView().setVisibility(VISIBLE);
+        card.getTextView().setText(imageDescription);
 		ImageLoader.getInstance().displayImage(url, card.getImageView(), ImageLoaderUtility.getDisplayImageOptions(), new ImageLoadingListener() {
 			@Override
 			public void onLoadingStarted(String imageUri, View view) {
@@ -136,7 +156,7 @@ public class CollageView extends RelativeLayout {
 
 			@Override
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				card.getTextView().setVisibility(VISIBLE);
+
 
 			}
 
@@ -145,8 +165,10 @@ public class CollageView extends RelativeLayout {
 
 			}
 		});
+
 		addViewToList(card);
 	}
+
 
 	private void addViewToList(ItemView card) {
 		listItems.add(card);
@@ -160,8 +182,8 @@ public class CollageView extends RelativeLayout {
 	 *            List of URLs
 	 */
 	public void createCollageUrl(List<String> stringList) {
-		for (String url : stringList) {
-			addItem(url);
+		for (int i=0;i<stringList.size();i++) {
+			addItem(stringList.get(i),imageDescriptions[i]);
 		}
 	}
 }
