@@ -30,5 +30,7 @@ class MainActivity : AppCompatActivity() {
         collage.setFixedCollage(false)
         collage.createCollageUrl(listString)
 
+        savedInstanceState
+
     }
 }

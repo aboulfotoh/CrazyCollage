@@ -49,7 +49,7 @@ public class ItemView extends RelativeLayout {
         layoutInflater.inflate(R.layout.item_view, this, true);
         imageView = findViewById(R.id.image);
         textView = findViewById(R.id.text);
-        mtl = new MultiTouchListener();
+        mtl = new MultiTouchListener(context);
         this.setOnTouchListener(mtl);
         mtl.setRandomPosition(this);
     }
@@ -69,13 +69,6 @@ public class ItemView extends RelativeLayout {
     public void setTextView(TextView textView) {
         this.textView = textView;
     }
-
-    /*@Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawRect(PADDING, PADDING, getWidth() - PADDING, getHeight()
-                - PADDING, mBorderPaint);
-    }*/
 
     public void setFixedItem() {
         mtl.isRotateEnabled = false;

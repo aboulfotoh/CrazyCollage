@@ -3,13 +3,11 @@ package com.objects.crazeycollage.views;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -105,6 +103,11 @@ public class CollageView extends RelativeLayout {
 				int left = random.nextInt(collageWidth) - collageWidth /8;
 				int top = random.nextInt(collageHeight) - collageHeight /8;
 
+				if (left<0)
+					left = 0;
+
+				if (top<0)
+					top=0;
 
 				params.leftMargin = left;
 				params.topMargin = top;
