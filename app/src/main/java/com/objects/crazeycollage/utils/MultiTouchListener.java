@@ -1,5 +1,7 @@
 package com.objects.crazeycollage.utils;
 
+import android.graphics.Point;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -11,7 +13,7 @@ public class MultiTouchListener implements OnTouchListener {
 	public boolean isTranslateEnabled = true;
 	public boolean isScaleEnabled = true;
 	public float minimumScale = 0.5f;
-	public float maximumScale = 10.0f;
+	public float maximumScale = 1.2f;
 	private int mActivePointerId = INVALID_POINTER_ID;
 	private float mPrevX;
 	private float mPrevY;
@@ -23,13 +25,31 @@ public class MultiTouchListener implements OnTouchListener {
 	}
 
 	public void setRandomPosition(View view) {
-
 		TransformInfo randomInfo = new TransformInfo();
 		randomInfo.deltaAngle = Utils.generateRandomPositiveNegativeValue(4, 2);
 		randomInfo.deltaX = Utils.generateRandomPositiveNegativeValue(4, 2);
 		randomInfo.deltaY = Utils.generateRandomPositiveNegativeValue(4, 2);
 		randomInfo.pivotX = Utils.generateRandomPositiveNegativeValue(4, 2);
 		randomInfo.pivotY = Utils.generateRandomPositiveNegativeValue(4, 2);
+
+		while (randomInfo.pivotX <0 ){
+			randomInfo.deltaX = Utils.generateRandomPositiveNegativeValue(4, 2);
+			randomInfo.pivotX = Utils.generateRandomPositiveNegativeValue(4, 2);
+		}
+
+
+		while (randomInfo.pivotY<0){
+			randomInfo.deltaY = Utils.generateRandomPositiveNegativeValue(4, 2);
+			randomInfo.pivotY = Utils.generateRandomPositiveNegativeValue(4, 2);
+		}
+
+
+		/*Display mdisp = getWindowManager().getDefaultDisplay();
+		Point mdispSize = new Point();
+		mdisp.getSize(mdispSize);
+		int maxX = mdispSize.x;
+		int maxY = mdispSize.y;*/
+
 		randomInfo.minimumScale = minimumScale;
 		randomInfo.maximumScale = 2f;
 
@@ -92,6 +112,7 @@ public class MultiTouchListener implements OnTouchListener {
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		mScaleGestureDetector.onTouchEvent(view, event);
+		view.bringToFront();
 
 		if (!isTranslateEnabled) {
 			return true;
