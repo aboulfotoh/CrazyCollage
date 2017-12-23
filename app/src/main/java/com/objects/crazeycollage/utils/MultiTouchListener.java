@@ -19,8 +19,9 @@ public class MultiTouchListener implements OnTouchListener {
     private int mActivePointerId = INVALID_POINTER_ID;
     private float mPrevX;
     private float mPrevY;
+    float[] deltaVector;
     private ScaleGestureDetector mScaleGestureDetector;
-    private Context mContext;
+    private static Context mContext;
     int width;
     int height;
 
@@ -33,14 +34,11 @@ public class MultiTouchListener implements OnTouchListener {
     public void setRandomPosition(View view) {
         TransformInfo randomInfo = new TransformInfo();
         randomInfo.deltaAngle = Utils.generateRandomPositiveNegativeValue(4, 2);
-        randomInfo.deltaX = Utils.generateRandomPositiveNegativeValue(4, 2);
+        /*randomInfo.deltaX = Utils.generateRandomPositiveNegativeValue(4, 2);
         randomInfo.deltaY = Utils.generateRandomPositiveNegativeValue(4, 2);
         randomInfo.pivotX = Utils.generateRandomPositiveNegativeValue(4, 2);
-        randomInfo.pivotY = Utils.generateRandomPositiveNegativeValue(4, 2);
-        randomInfo.deltaX = Utils.generateRandomPositiveNegativeValue(4, 2);
-        randomInfo.pivotX = Utils.generateRandomPositiveNegativeValue(4, 2);
-        randomInfo.deltaY = Utils.generateRandomPositiveNegativeValue(4, 2);
-        randomInfo.pivotY = Utils.generateRandomPositiveNegativeValue(4, 2);
+        randomInfo.pivotY = Utils.generateRandomPositiveNegativeValue(4, 2);*/
+
 
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -48,6 +46,14 @@ public class MultiTouchListener implements OnTouchListener {
         display.getSize(size);
         width = size.x;
         height = size.y;
+
+        /*while (randomInfo.pivotX> width || randomInfo.pivotX>height || randomInfo.pivotY>width || randomInfo.pivotY>height){
+            randomInfo.deltaX = Utils.generateRandomPositiveNegativeValue(4, 2);
+            randomInfo.pivotX = Utils.generateRandomPositiveNegativeValue(4, 2);
+            randomInfo.deltaY = Utils.generateRandomPositiveNegativeValue(4, 2);
+            randomInfo.pivotY = Utils.generateRandomPositiveNegativeValue(4, 2);
+        }*/
+
 
 		/*Display mdisp = getWindowManager().getDefaultDisplay();
         Point mdispSize = new Point();
@@ -73,7 +79,7 @@ public class MultiTouchListener implements OnTouchListener {
 
     private static void move(View view, TransformInfo info) {
         computeRenderOffset(view, info.pivotX, info.pivotY);
-        adjustTranslation(view, info.deltaX, info.deltaY);
+        //adjustTranslation(view, info.deltaX, info.deltaY);
 
         // Assume that scaling still maintains aspect ratio.
         float scale = view.getScaleX() * info.deltaScale;
@@ -86,10 +92,10 @@ public class MultiTouchListener implements OnTouchListener {
     }
 
     private static void adjustTranslation(View view, float deltaX, float deltaY) {
-        float[] deltaVector = {deltaX, deltaY};
-        view.getMatrix().mapVectors(deltaVector);
-        view.setTranslationX(view.getTranslationX() + deltaVector[0]);
-        view.setTranslationY(view.getTranslationY() + deltaVector[1]);
+            float[] deltaVector = {deltaX, deltaY};
+            view.getMatrix().mapVectors(deltaVector);
+            view.setTranslationX(view.getTranslationX() + deltaVector[0]);
+            view.setTranslationY(view.getTranslationY() + deltaVector[1]);
     }
 
     private static void computeRenderOffset(View view, float pivotX,
@@ -128,7 +134,6 @@ public class MultiTouchListener implements OnTouchListener {
             case MotionEvent.ACTION_DOWN: {
                 mPrevX = event.getX();
                 mPrevY = event.getY();
-
                 // Save the ID of this pointer.
                 mActivePointerId = event.getPointerId(0);
                 break;
@@ -140,11 +145,21 @@ public class MultiTouchListener implements OnTouchListener {
                 if (pointerIndex != -1) {
                     float currX = event.getX(pointerIndex);
                     float currY = event.getY(pointerIndex);
-
                     // Only move if the ScaleGestureDetector isn't processing a
                     // gesture.
                     if (!mScaleGestureDetector.isInProgress()) {
-                        adjustTranslation(view, currX - mPrevX, currY - mPrevY);
+                        if (mPrevX > width/1.7)
+                            adjustTranslation(view, 1, currY - mPrevY);
+                        else if (mPrevY > height/1.7 )
+                            adjustTranslation(view, currX - mPrevX, 1);
+                        else if (mPrevX < 150)
+                            adjustTranslation(view, -1, currY - mPrevY);
+                        else if (mPrevY <150)
+                            adjustTranslation(view, currX - mPrevX, -1);
+                       /* else if (mPrevX > 300 && mPrevY > 400)
+                            adjustTranslation(view, 1, 1);*/
+                        else
+                            adjustTranslation(view, currX - mPrevX, currY - mPrevY);
                     }
                 }
 
@@ -169,9 +184,11 @@ public class MultiTouchListener implements OnTouchListener {
                     int newPointerIndex = pointerIndex == 0 ? 1 : 0;
                     mPrevX = event.getX(newPointerIndex);
                     mPrevY = event.getY(newPointerIndex);
+
+                    if (mPrevX> width || mPrevX>height || mPrevY>width || mPrevY>height)
+                        break;
                     mActivePointerId = event.getPointerId(newPointerIndex);
                 }
-
                 break;
             }
         }

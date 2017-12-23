@@ -117,14 +117,14 @@ public class CollageView extends RelativeLayout {
 					top=0;
 
 				if (left > width)
-					left = width/2;
+					left = width/4;
 				if (top > height)
-					top = height/2;
+					top = height/4;
 
-				params.leftMargin = left;
-				params.topMargin = top;
-				params.rightMargin = -left;
-				params.bottomMargin = -top;
+				params.leftMargin = left/2;
+				params.topMargin = top/2;
+				params.rightMargin = -left/2;
+				params.bottomMargin = -top/2;
 
 
 				if (isCollageFixed)
